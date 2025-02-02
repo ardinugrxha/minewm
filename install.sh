@@ -112,7 +112,7 @@ create_systemd_service() {
   sudo bash -c "cat > $SERVICE_FILE" <<EOL
 [Unit]
 Description=MineWM Window Manager
-After=graphical-session.target
+After=graphical-session.target display-manager.service
 PartOf=graphical-session.target
 
 [Service]

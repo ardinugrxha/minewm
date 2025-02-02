@@ -38,7 +38,7 @@ WindowTree *init_window_tree(int screen_width, int screen_height) {
   WindowTree *tree = (WindowTree *)malloc(sizeof(WindowTree));
   tree->root = NULL;
   tree->screen_width = screen_width;
-  tree->screen_height = screen_height;
+  tree->screen_height = screen_height - 5;
   return tree;
 }
 

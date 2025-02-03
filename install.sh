@@ -125,7 +125,7 @@ Environment=XDG_SESSION_TYPE=x11
 Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
 StandardOutput=journal
 StandardError=journal
-Restart=on-failure
+Restart=always
 RestartSec=10
 
 [Install]

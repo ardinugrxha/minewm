@@ -149,19 +149,19 @@ static gboolean on_window_opened(gpointer data) {
   WnckWorkspace *active_workspace = wnck_screen_get_active_workspace(screen);
   if (!active_workspace) {
     g_warning("No active workspace found.");
-    return FALSE;
+    return TRUE;
   }
 
   GList *windows = wnck_screen_get_windows(screen);
   if (!windows) {
     g_warning("No windows found.");
-    return FALSE;
+    return TRUE;
   }
 
   WnckWindow *new_window = (WnckWindow *)g_list_last(windows)->data;
   if (!new_window) {
     g_warning("Failed to retrieve the last opened window.");
-    return FALSE;
+    return TRUE;
   }
 
   GArray *free_workspaces = g_array_new(FALSE, FALSE, sizeof(WnckWorkspace *));

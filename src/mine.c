@@ -85,6 +85,10 @@ static void arrange_windows(WindowArranger *arranger) {
   GList *active_windows = NULL;
   int screen_width, screen_height;
 
+  get_screen_size(&screen_width, &screen_height);
+  WindowTree *tree = init_window_tree(screen_width, screen_height);
+  WindowTree *tmpTree = init_window_tree(screen_width, screen_height);
+
   // Filter windows
   for (GList *l = windows; l != NULL; l = l->next) {
     WnckWindow *window = WNCK_WINDOW(l->data);
@@ -92,34 +96,38 @@ static void arrange_windows(WindowArranger *arranger) {
         wnck_window_get_window_type(window) == WNCK_WINDOW_NORMAL &&
         wnck_window_get_workspace(window) == active_workspace) {
       active_windows = g_list_append(active_windows, window);
+
+      int x, y, width, height;
+      wnck_window_get_geometry(window, &x, &y, &width, &height);
+
+      insert_window(tmpTree, window);
+      tmpTree->root->x = x;
+      tmpTree->root->y = y;
+      tmpTree->root->width = width;
+      tmpTree->root->height = height;
+
+      insert_window(tree, window);
     }
   }
 
-  if (active_windows == NULL)
+  if (active_windows == NULL) {
+    free_tree(tree->root);
+    free(tree);
     return;
-
-  get_screen_size(&screen_width, &screen_height);
-
-  WindowTree *tree = init_window_tree(screen_width, screen_height);
-
-  for (GList *l = active_windows; l != NULL; l = l->next) {
-    insert_window(tree, WNCK_WINDOW(l->data));
   }
 
   if (arranger->tree) {
-    int sameTree = compare_tree(tree->root, arranger->tree);
-    printf("SAME TREE : %d \n", sameTree);
+    int sameTree = compare_tree(tmpTree->root, arranger->tree);
     if (sameTree == 0) {
       apply_tree_layout(tree->root);
-      free_tree(arranger->tree);
-      arranger->tree = copy_tree(tree->root);
+      free_tree(tree->root);
+      free(tree);
     }
-  } else {
-    arranger->tree = copy_tree(tree->root);
   }
+  arranger->tree = copy_tree(tmpTree->root);
 
-  free_tree(tree->root);
-  free(tree);
+  free_tree(tmpTree->root);
+  free(tmpTree);
   g_list_free(active_windows);
 }
 

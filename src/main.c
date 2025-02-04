@@ -38,6 +38,7 @@ int main(int argc, char **argv) {
   arranger.handle = wnck_handle_new(WNCK_CLIENT_TYPE_APPLICATION);
   arranger.screen = wnck_handle_get_default_screen(arranger.handle);
   wnck_screen_force_update(arranger.screen);
+  arranger.tree = NULL;
 
   g_timeout_add(POLLING_INTERVAL, on_window_opened, &arranger);
 

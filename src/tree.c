@@ -33,7 +33,6 @@ TreeNode *create_node(WnckWindow *window) {
   return node;
 }
 
-// Initialize window tree
 WindowTree *init_window_tree(int screen_width, int screen_height) {
   WindowTree *tree = (WindowTree *)malloc(sizeof(WindowTree));
   tree->root = NULL;
@@ -81,6 +80,19 @@ void calculate_dimensions(TreeNode *node, int depth) {
     calculate_dimensions(node->left, depth + 1);
     calculate_dimensions(node->right, depth + 1);
   }
+}
+
+void print_tree(TreeNode *node, char *title) {
+  if (!node)
+    return;
+
+  printf("[%s] X: %d \n", title, node->x);
+  printf("[%s] Y: %d \n", title, node->y);
+  printf("[%s] Height: %d \n", title, node->height);
+  printf("[%s] Width: %d \n", title, node->width);
+
+  print_tree(node->left, title);
+  print_tree(node->right, title);
 }
 
 int compare_tree(TreeNode *firstTree, TreeNode *secondTree) {

@@ -111,7 +111,10 @@ static void arrange_windows(WindowArranger *arranger) {
   }
 
   if (active_windows == NULL) {
+    free_tree(tmpTree->root);
     free_tree(tree->root);
+
+    free(tmpTree);
     free(tree);
     return;
   }

@@ -2,9 +2,9 @@
 
 # Configuration
 INSTALL_DIR="/usr/local/bin"
-SERVICE_FILE="/etc/systemd/system/minewm.service"
-USER_SERVICE_FILE="$HOME/.config/systemd/user/minewm.service"
-BINARY_NAME="minewm"
+SERVICE_FILE="/etc/systemd/system/gridflux.service"
+USER_SERVICE_FILE="$HOME/.config/systemd/user/gridflux.service"
+BINARY_NAME="gridflux"
 
 # Colors for output
 RED='\033[0;31m'
@@ -38,8 +38,8 @@ remove_systemd_service() {
   # Stop and disable system-wide service
   if [ -f "$SERVICE_FILE" ]; then
     print_status "Removing system-wide service..."
-    sudo systemctl stop minewm.service 2>/dev/null || true
-    sudo systemctl disable minewm.service 2>/dev/null || true
+    sudo systemctl stop gridflux.service 2>/dev/null || true
+    sudo systemctl disable gridflux.service 2>/dev/null || true
     sudo rm -f "$SERVICE_FILE"
     sudo systemctl daemon-reload
   fi
@@ -47,8 +47,8 @@ remove_systemd_service() {
   # Stop and disable user service
   if [ -f "$USER_SERVICE_FILE" ]; then
     print_status "Removing user service..."
-    systemctl --user stop minewm.service 2>/dev/null || true
-    systemctl --user disable minewm.service 2>/dev/null || true
+    systemctl --user stop gridflux.service 2>/dev/null || true
+    systemctl --user disable gridflux.service 2>/dev/null || true
     rm -f "$USER_SERVICE_FILE"
     systemctl --user daemon-reload
   fi
@@ -56,11 +56,11 @@ remove_systemd_service() {
 
 # Function to remove the binary
 remove_binary() {
-  print_status "Removing minewm binary..."
+  print_status "Removing gridflux binary..."
 
   # Kill any running instances
-  print_status "Stopping any running instances of minewm..."
-  pkill minewm 2>/dev/null || true
+  print_status "Stopping any running instances of gridflux..."
+  pkill gridflux 2>/dev/null || true
 
   # Wait a moment for processes to stop
   sleep 2
@@ -80,12 +80,12 @@ clean_build() {
   if [ -f "Makefile" ]; then
     make clean 2>/dev/null || true
   fi
-  rm -f minewm 2>/dev/null || true
+  rm -f gridflux 2>/dev/null || true
 }
 
 # Main uninstall function
 main() {
-  print_status "Starting MineWM uninstallation..."
+  print_status "Starting gridflux uninstallation..."
 
   remove_systemd_service
   remove_binary
@@ -97,7 +97,7 @@ main() {
 }
 
 # Ask for confirmation
-echo -e "${YELLOW}This will completely remove MineWM from your system.${NC}"
+echo -e "${YELLOW}This will completely remove gridflux from your system.${NC}"
 echo -n "Do you want to continue? [y/N] "
 read -r response
 

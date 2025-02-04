@@ -1,18 +1,18 @@
 /*
- * This file is part of minewm.
+ * This file is part of gridflux.
  *
- * minewm is free software: you can redistribute it and/or modify
+ * gridflux is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * minewm is distributed in the hope that it will be useful,
+ * gridflux is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with minewm.  If not, see <https://www.gnu.org/licenses/>.
+ * along with gridflux.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright (C) 2025 Ardi Nugraha
  */
@@ -25,10 +25,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef enum { SPLIT_HORIZONTAL, SPLIT_VERTICAL } SplitDirection;
+typedef enum
+{
+  SPLIT_HORIZONTAL,
+  SPLIT_VERTICAL
+} SplitDirection;
 
 // Node in the window tree
-typedef struct TreeNode {
+typedef struct TreeNode
+{
   struct TreeNode *left;
   struct TreeNode *right;
   struct TreeNode *parent;
@@ -39,7 +44,8 @@ typedef struct TreeNode {
   int width, height; // Dimensions
 } TreeNode;
 
-typedef struct {
+typedef struct
+{
   TreeNode *root;
   int screen_width;
   int screen_height;

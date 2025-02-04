@@ -1,18 +1,18 @@
 /*
- * This file is part of minewm.
+ * This file is part of gridflux.
  *
- * minewm is free software: you can redistribute it and/or modify
+ * gridflux is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * minewm is distributed in the hope that it will be useful,
+ * gridflux is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with minewm.  If not, see <https://www.gnu.org/licenses/>.
+ * along with gridflux.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright (C) 2025 Ardi Nugraha
  */
@@ -32,7 +32,8 @@
 #define MAX_WINDOWS_PER_WORKSPACE 5
 #define POLLING_INTERVAL 300
 
-typedef struct {
+typedef struct
+{
   WnckHandle *handle;
   WnckScreen *screen;
   xcb_connection_t *xcb_conn;

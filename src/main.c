@@ -1,33 +1,35 @@
 
 /*
- * This file is part of minewm.
+ * This file is part of gridflux.
  *
- * minewm is free software: you can redistribute it and/or modify
+ * gridflux is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * minewm is distributed in the hope that it will be useful,
+ * gridflux is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with minewm.  If not, see <https://www.gnu.org/licenses/>.
+ * along with gridflux.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright (C) 2025 Ardi Nugraha
  */
 
-#include "mine.h"
+#include "gridflux.h"
 #include <stdio.h>
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
   gtk_init(&argc, &argv);
 
   WindowArranger arranger;
 
   arranger.xcb_conn = xcb_connect(NULL, NULL);
-  if (xcb_connection_has_error(arranger.xcb_conn)) {
+  if (xcb_connection_has_error(arranger.xcb_conn))
+  {
     fprintf(stderr, "Failed to connect to X server\n");
     return 1;
   }

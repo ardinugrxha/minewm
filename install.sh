@@ -4,7 +4,7 @@
 USER_NAME=$(whoami)
 COMPUTER_NAME=$(hostname)
 INSTALL_DIR="/usr/local/bin"
-SERVICE_FILE="/etc/systemd/system/minewm.service"
+SERVICE_FILE="/etc/systemd/system/gridflux.service"
 
 # Colors for output
 RED='\033[0;31m'
@@ -75,33 +75,33 @@ build_and_install() {
   make clean
   make
 
-  print_status "Stopping existing minewm service..."
-  sudo systemctl stop minewm.service 2>/dev/null || true
+  print_status "Stopping existing gridflux service..."
+  sudo systemctl stop gridflux.service 2>/dev/null || true
 
-  print_status "Checking for existing minewm process..."
-  pkill minewm 2>/dev/null || true
+  print_status "Checking for existing gridflux process..."
+  pkill gridflux 2>/dev/null || true
 
   print_info "Waiting for processes to stop..."
   sleep 2
 
-  print_status "Installing minewm to $INSTALL_DIR..."
-  sudo cp minewm "$INSTALL_DIR/" || {
-    print_error "Failed to copy minewm to $INSTALL_DIR"
+  print_status "Installing gridflux to $INSTALL_DIR..."
+  sudo cp gridflux "$INSTALL_DIR/" || {
+    print_error "Failed to copy gridflux to $INSTALL_DIR"
     exit 1
   }
-  sudo chmod +x "$INSTALL_DIR/minewm" || {
-    print_error "Failed to make minewm executable"
+  sudo chmod +x "$INSTALL_DIR/gridflux" || {
+    print_error "Failed to make gridflux executable"
     exit 1
   }
   print_status "Binary installation complete"
 }
 
 create_systemd_service() {
-  print_status "Creating systemd service for minewm..."
+  print_status "Creating systemd service for gridflux..."
   if [ -f "$SERVICE_FILE" ]; then
     print_warning "Service already exists. Removing old service..."
-    sudo systemctl stop minewm.service 2>/dev/null || true
-    sudo systemctl disable minewm.service 2>/dev/null || true
+    sudo systemctl stop gridflux.service 2>/dev/null || true
+    sudo systemctl disable gridflux.service 2>/dev/null || true
     sudo rm "$SERVICE_FILE"
   fi
 
@@ -111,13 +111,13 @@ create_systemd_service() {
 
   sudo bash -c "cat > $SERVICE_FILE" <<EOL
 [Unit]
-Description=MineWM Window Manager
+Description=Tilling Assistant 
 After=graphical-session.target display-manager.service
 PartOf=graphical-session.target
 
 [Service]
 Type=simple
-ExecStart=$INSTALL_DIR/minewm
+ExecStart=$INSTALL_DIR/gridflux
 User=$USER_NAME
 Environment=DISPLAY=$CURRENT_DISPLAY
 Environment=XAUTHORITY=$CURRENT_XAUTHORITY
@@ -133,25 +133,25 @@ WantedBy=default.target
 EOL
 
   sudo systemctl daemon-reload
-  sudo systemctl enable minewm.service
+  sudo systemctl enable gridflux.service
   print_status "Service enabled successfully"
 
   # Check DISPLAY before starting
   print_info "Current DISPLAY value: $CURRENT_DISPLAY"
   print_info "Current XAUTHORITY: $CURRENT_XAUTHORITY"
 
-  sudo systemctl start minewm.service
+  sudo systemctl start gridflux.service
   print_status "Service started successfully"
 
   # Check service status
   sleep 2
-  systemctl status minewm.service
+  systemctl status gridflux.service
 
-  print_info "You can check logs with: journalctl -u minewm.service -f"
+  print_info "You can check logs with: journalctl -u gridflux.service -f"
 }
 
 main() {
-  print_status "Starting installation of minewm..."
+  print_status "Starting installation of gridflux..."
   print_info "Installing as user: $USER_NAME"
   print_info "Computer name: $COMPUTER_NAME"
 
@@ -170,7 +170,7 @@ main() {
     exit 1
   }
 
-  print_status "Installation complete! MineWM is set to run at login."
+  print_status "Installation complete! gridflux is set to run at login."
 }
 
 # Check if running as root

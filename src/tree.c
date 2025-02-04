@@ -1,25 +1,26 @@
 /*
- * This file is part of minewm.
+ * This file is part of gridflux.
  *
- * minewm is free software: you can redistribute it and/or modify
+ * gridflux is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * minewm is distributed in the hope that it will be useful,
+ * gridflux is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with minewm.  If not, see <https://www.gnu.org/licenses/>.
+ * along with gridflux.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright (C) 2025 Ardi Nugraha
  */
 
 #include "tree.h"
 #include <stdio.h>
-TreeNode *create_node(WnckWindow *window) {
+TreeNode *create_node(WnckWindow *window)
+{
   TreeNode *node = (TreeNode *)malloc(sizeof(TreeNode));
   node->left = NULL;
   node->right = NULL;
@@ -33,7 +34,8 @@ TreeNode *create_node(WnckWindow *window) {
   return node;
 }
 
-WindowTree *init_window_tree(int screen_width, int screen_height) {
+WindowTree *init_window_tree(int screen_width, int screen_height)
+{
   WindowTree *tree = (WindowTree *)malloc(sizeof(WindowTree));
   tree->root = NULL;
   tree->screen_width = screen_width;
@@ -41,12 +43,15 @@ WindowTree *init_window_tree(int screen_width, int screen_height) {
   return tree;
 }
 
-void calculate_dimensions(TreeNode *node, int depth) {
+void calculate_dimensions(TreeNode *node, int depth)
+{
   if (!node)
     return;
 
-  if (node->left && node->right) {
-    if (node->split == SPLIT_HORIZONTAL) {
+  if (node->left && node->right)
+  {
+    if (node->split == SPLIT_HORIZONTAL)
+    {
       int split_pos = (int)(node->height * node->ratio);
 
       // Left child (top)
@@ -60,8 +65,9 @@ void calculate_dimensions(TreeNode *node, int depth) {
       node->right->y = node->y + split_pos;
       node->right->width = node->width;
       node->right->height = node->height - split_pos;
-
-    } else {
+    }
+    else
+    {
       int split_pos = (int)(node->width * node->ratio);
 
       // Left child
@@ -82,7 +88,8 @@ void calculate_dimensions(TreeNode *node, int depth) {
   }
 }
 
-int compare_tree(TreeNode *firstTree, TreeNode *secondTree) {
+int compare_tree(TreeNode *firstTree, TreeNode *secondTree)
+{
 
   if (!firstTree && !secondTree)
     return 1;
@@ -92,7 +99,8 @@ int compare_tree(TreeNode *firstTree, TreeNode *secondTree) {
 
   if (firstTree->x != secondTree->x || firstTree->y != secondTree->y ||
       firstTree->width != secondTree->width ||
-      firstTree->height != secondTree->height) {
+      firstTree->height != secondTree->height)
+  {
     return 0;
   }
 
@@ -102,7 +110,8 @@ int compare_tree(TreeNode *firstTree, TreeNode *secondTree) {
   return leftEqual && rightEqual;
 }
 
-TreeNode *copy_tree(TreeNode *node) {
+TreeNode *copy_tree(TreeNode *node)
+{
   if (!node)
     return NULL;
 
@@ -120,10 +129,12 @@ TreeNode *copy_tree(TreeNode *node) {
   return new_node;
 }
 
-TreeNode *insert_window(WindowTree *tree, WnckWindow *window) {
+TreeNode *insert_window(WindowTree *tree, WnckWindow *window)
+{
   TreeNode *new_node = create_node(window);
 
-  if (!tree->root) {
+  if (!tree->root)
+  {
     // First window takes full screen
     tree->root = new_node;
     new_node->width = tree->screen_width;
@@ -133,7 +144,8 @@ TreeNode *insert_window(WindowTree *tree, WnckWindow *window) {
 
   // Find a leaf node to split
   TreeNode *current = tree->root;
-  while (current->left || current->right) {
+  while (current->left || current->right)
+  {
     if (!current->right)
       current = current->left;
     else if (!current->left)
@@ -154,9 +166,12 @@ TreeNode *insert_window(WindowTree *tree, WnckWindow *window) {
       (current->width > current->height) ? SPLIT_VERTICAL : SPLIT_HORIZONTAL;
 
   // Set up the split
-  if (current == tree->root) {
+  if (current == tree->root)
+  {
     tree->root = new_parent;
-  } else {
+  }
+  else
+  {
     if (current->parent->left == current)
       current->parent->left = new_parent;
     else
@@ -176,11 +191,13 @@ TreeNode *insert_window(WindowTree *tree, WnckWindow *window) {
 }
 
 // Apply window layout from tree
-void apply_tree_layout(TreeNode *node) {
+void apply_tree_layout(TreeNode *node)
+{
   if (!node)
     return;
 
-  if (node->window) {
+  if (node->window)
+  {
     wnck_window_unmaximize(node->window);
     wnck_window_set_geometry(node->window, WNCK_WINDOW_GRAVITY_STATIC,
                              WNCK_WINDOW_CHANGE_X | WNCK_WINDOW_CHANGE_Y |
@@ -193,7 +210,8 @@ void apply_tree_layout(TreeNode *node) {
   apply_tree_layout(node->right);
 }
 
-void free_tree(TreeNode *node) {
+void free_tree(TreeNode *node)
+{
   if (!node)
     return;
   free_tree(node->left);

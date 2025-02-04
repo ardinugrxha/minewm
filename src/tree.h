@@ -20,7 +20,10 @@
 #ifndef TREE
 #define TREE
 
-#include "mine.h"
+#define WNCK_I_KNOW_THIS_IS_UNSTABLE
+#include <libwnck/libwnck.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef enum { SPLIT_HORIZONTAL, SPLIT_VERTICAL } SplitDirection;
 
@@ -48,5 +51,7 @@ void calculate_dimensions(TreeNode *node, int depth);
 TreeNode *insert_window(WindowTree *tree, WnckWindow *window);
 void apply_tree_layout(TreeNode *node);
 void free_tree(TreeNode *node);
+int compare_tree(TreeNode *firstTree, TreeNode *secondTree);
+TreeNode *copy_tree(TreeNode *node);
 
-#endif // MINE_H
+#endif

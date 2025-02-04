@@ -18,7 +18,7 @@
  */
 
 #include "tree.h"
-// Create a new tree node
+#include <stdio.h>
 TreeNode *create_node(WnckWindow *window) {
   TreeNode *node = (TreeNode *)malloc(sizeof(TreeNode));
   node->left = NULL;
@@ -42,8 +42,6 @@ WindowTree *init_window_tree(int screen_width, int screen_height) {
   return tree;
 }
 
-// Calculate dimensions for a node and its children
-
 void calculate_dimensions(TreeNode *node, int depth) {
   if (!node)
     return;
@@ -51,7 +49,6 @@ void calculate_dimensions(TreeNode *node, int depth) {
   if (node->left && node->right) {
     if (node->split == SPLIT_HORIZONTAL) {
       int split_pos = (int)(node->height * node->ratio);
-      int gap = (depth == 1) ? 40 : 0; // Apply gap only for the second window
 
       // Left child (top)
       node->left->x = node->x;
@@ -61,9 +58,9 @@ void calculate_dimensions(TreeNode *node, int depth) {
 
       // Right child (bottom) with optional gap
       node->right->x = node->x;
-      node->right->y = node->y + split_pos + gap;
+      node->right->y = node->y + split_pos;
       node->right->width = node->width;
-      node->right->height = node->height - split_pos - gap;
+      node->right->height = node->height - split_pos;
 
     } else {
       int split_pos = (int)(node->width * node->ratio);
@@ -81,13 +78,49 @@ void calculate_dimensions(TreeNode *node, int depth) {
       node->right->height = node->height;
     }
 
-    // Recursively calculate children's dimensions
     calculate_dimensions(node->left, depth + 1);
     calculate_dimensions(node->right, depth + 1);
   }
 }
 
-// Insert a window into the tree
+int compare_tree(TreeNode *firstTree, TreeNode *secondTree) {
+
+  if (!firstTree && !secondTree)
+    return 1;
+
+  if (!firstTree || !secondTree)
+    return 0;
+
+  if (firstTree->x != secondTree->x || firstTree->y != secondTree->y ||
+      firstTree->width != secondTree->width ||
+      firstTree->height != secondTree->height) {
+    return 0;
+  }
+
+  int leftEqual = compare_tree(firstTree->left, secondTree->left);
+  int rightEqual = compare_tree(firstTree->right, secondTree->right);
+
+  return leftEqual && rightEqual;
+}
+
+TreeNode *copy_tree(TreeNode *node) {
+  if (!node)
+    return NULL;
+
+  TreeNode *new_node = (TreeNode *)malloc(sizeof(TreeNode));
+  new_node->x = node->x;
+  new_node->y = node->y;
+  new_node->width = node->width;
+  new_node->height = node->height;
+  new_node->split = node->split;
+  new_node->ratio = node->ratio;
+
+  new_node->left = copy_tree(node->left);
+  new_node->right = copy_tree(node->right);
+
+  return new_node;
+}
+
 TreeNode *insert_window(WindowTree *tree, WnckWindow *window) {
   TreeNode *new_node = create_node(window);
 
@@ -161,7 +194,6 @@ void apply_tree_layout(TreeNode *node) {
   apply_tree_layout(node->right);
 }
 
-// Free the tree
 void free_tree(TreeNode *node) {
   if (!node)
     return;

@@ -20,6 +20,7 @@
 #ifndef MINE_H
 #define MINE_H
 
+#include "tree.h"
 #include <stdio.h>
 #include <stdlib.h>
 #define WNCK_I_KNOW_THIS_IS_UNSTABLE
@@ -36,6 +37,9 @@ typedef struct {
   WnckScreen *screen;
   xcb_connection_t *xcb_conn;
   xcb_screen_t *xcb_screen;
+  TreeNode *tree;
 } WindowArranger;
 
-#endif // MINE_H
+gboolean on_window_opened(gpointer data);
+
+#endif

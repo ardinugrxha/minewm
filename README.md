@@ -1,6 +1,12 @@
 # gridflux - A Minimalist Tiling Assistant
 
-gridflux is a lightweight and minimalist tiling assistant designed to arrange and manage windows efficiently. It supports automatic window tiling, workspace organization, and is optimized for Linux systems.
+gridflux is a lightweight and minimalist tiling assistant designed to arrange and manage windows efficiently. It supports automatic window tiling, workspace organization.
+
+
+
+https://github.com/user-attachments/assets/045ea8e5-f5c9-42e8-80fd-e89794850010
+
+
 
 ## Features
 

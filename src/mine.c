@@ -123,13 +123,16 @@ static void arrange_windows(WindowArranger *arranger) {
     int sameTree = compare_tree(tmpTree->root, arranger->tree);
     if (sameTree == 0) {
       apply_tree_layout(tree->root);
-      free_tree(tree->root);
-      free(tree);
     }
+  } else {
+    apply_tree_layout(tree->root);
   }
   arranger->tree = copy_tree(tmpTree->root);
 
   free_tree(tmpTree->root);
+  free_tree(tree->root);
+
+  free(tree);
   free(tmpTree);
   g_list_free(active_windows);
 }

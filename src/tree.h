@@ -52,7 +52,6 @@ TreeNode *insert_window(WindowTree *tree, WnckWindow *window);
 void apply_tree_layout(TreeNode *node);
 void free_tree(TreeNode *node);
 int compare_tree(TreeNode *firstTree, TreeNode *secondTree);
-void print_tree(TreeNode *node, char *title);
 TreeNode *copy_tree(TreeNode *node);
 
 #endif

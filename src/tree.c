@@ -82,19 +82,6 @@ void calculate_dimensions(TreeNode *node, int depth) {
   }
 }
 
-void print_tree(TreeNode *node, char *title) {
-  if (!node)
-    return;
-
-  printf("[%s] X: %d \n", title, node->x);
-  printf("[%s] Y: %d \n", title, node->y);
-  printf("[%s] Height: %d \n", title, node->height);
-  printf("[%s] Width: %d \n", title, node->width);
-
-  print_tree(node->left, title);
-  print_tree(node->right, title);
-}
-
 int compare_tree(TreeNode *firstTree, TreeNode *secondTree) {
 
   if (!firstTree && !secondTree)
